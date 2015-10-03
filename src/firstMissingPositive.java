@@ -7,9 +7,6 @@ public class firstMissingPositive {
      * @return: an integer
      */
     public int firstMissingPositive(int[] A) {
-        if(A.length==0){
-            return 1;
-        }
         Arrays.sort(A);
         int j=0;
         for(int i=0;i<A.length;i++){
@@ -20,7 +17,7 @@ public class firstMissingPositive {
                 return j;
             }
         }
-        if(A[A.length-1]>0){
+        if(A.length>0&&A[A.length-1]>0){
             return A[A.length-1]+1;
         }
         return 1;
