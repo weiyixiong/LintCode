@@ -12,7 +12,7 @@ public class fastPower {
             return 1 % b;
         }
         
-        long product = fastPower(a, b, n / 2);
+        long product = fastPower(a, b, n >> 1);
         product = (product * product) % b;
         if (n % 2 == 1) {
             product = (product * a) % b;
