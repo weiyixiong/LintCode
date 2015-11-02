@@ -4,6 +4,7 @@ public class insertNode {
 	 *            : The root of the binary search tree.
 	 * @param node
 	 *            : insert this node into the binary search tree
+	 * @return: The root of the new binary search tree.
 	 */
 	public TreeNode insertNode(TreeNode root, TreeNode node) {
 		if (root == null) {
