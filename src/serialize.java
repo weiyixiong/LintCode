@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 /**
  * Created by winney on 15/11/12.
  */
