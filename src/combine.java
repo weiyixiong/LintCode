@@ -1,16 +1,10 @@
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by winney on 15/11/21.
  */
 public class combine {
-    public static List<List<Integer>> combine2(int n, int k) {
-
-    }
 
     public static List<List<Integer>> combine(int n, int k) {
         long size = n;
