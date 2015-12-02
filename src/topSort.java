@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by winney on 15/11/24.
@@ -10,43 +9,35 @@ public class topSort {
      * @return: Any topological order for the given graph.
      */
     public ArrayList<DirectedGraphNode> topSort(ArrayList<DirectedGraphNode> graph) {
-        int[] visited = new int[graph.size()];
-        ArrayList<DirectedGraphNode> res = new ArrayList<DirectedGraphNode>();
-        for (int i = 0; i < graph.size(); i++) {
-            for (int j = 0; j < graph.get(i).neighbors.size(); j++) {
-                visited[graph.get(i).neighbors.get(j).label] = 1;
+        ArrayList<DirectedGraphNode> result = new ArrayList<DirectedGraphNode>();
+        HashMap<DirectedGraphNode, Integer> map = new HashMap();
+        for (DirectedGraphNode node : graph) {
+            for (DirectedGraphNode neighbor : node.neighbors) {
+                if (map.containsKey(neighbor)) {
+                    map.put(neighbor, map.get(neighbor) + 1);
+                } else {
+                    map.put(neighbor, 1);
+                }
             }
         }
-        ArrayList<DirectedGraphNode> headCache = new ArrayList<DirectedGraphNode>;
-        for (int j = 0; j < visited.length; j++) {
-            if (visited[j] == 0 && graph.get(j).neighbors.size() != 0) {
-                headCache.add(graph.get(j));
-            } else {
-                visited[j] = 0;
+        Queue<DirectedGraphNode> q = new LinkedList<DirectedGraphNode>();
+        for (DirectedGraphNode node : graph) {
+            if (!map.containsKey(node)) {
+                q.offer(node);
+                result.add(node);
             }
         }
-        int i = 0;
-        while (!headCache.isEmpty() && topSort(graph, headCache.get(i++), new ArrayList<>(res), visited.clone()).size() != graph.size())
-            ;
-
-        return res;
-    }
-
-    public ArrayList<DirectedGraphNode> topSort(ArrayList<DirectedGraphNode> graph, DirectedGraphNode head, ArrayList<DirectedGraphNode> res, int[] visited) {
-        if (res.size() == graph.size()) {
-            return res;
-        }
-        res.add(head);
-        ArrayList<DirectedGraphNode> tmpLst = head.neighbors;
-        res.add(tmpLst.get(0));
-        visited[tmpLst.get(0).label] = 1;
-        for (int i = 0; i < tmpLst.size(); i++) {
-            if (visited[tmpLst.get(i).label] == 0) {
-                topSort(graph, head, new ArrayList<>(res), visited.clone());
+        while (!q.isEmpty()) {
+            DirectedGraphNode node = q.poll();
+            for (DirectedGraphNode n : node.neighbors) {
+                map.put(n, map.get(n) - 1);
+                if (map.get(n) == 0) {
+                    result.add(n);
+                    q.offer(n);
+                }
             }
         }
-
-        return res;
+        return result;
     }
 
 }
