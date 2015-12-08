@@ -12,12 +12,12 @@ public class solveNQueens {
         System.out.print(res
                 .size());
         for (int i = 0; i < res.size(); i++) {
-//            for (int j = 0; j < res.get(i).size(); j++) {
-//                System.out.println(res.get(i).get(j));
-//            }
-//            System.out.println();
-//            System.out.println();
-//            System.out.println();
+            for (int j = 0; j < res.get(i).size(); j++) {
+                System.out.println(res.get(i).get(j));
+            }
+            System.out.println();
+            System.out.println();
+            System.out.println();
         }
     }
 
@@ -70,10 +70,6 @@ public class solveNQueens {
         }
         for (int i = 0; i < n; i++) {
             if (judge(calcCache, index, n)) {
-                for (int j = 0; j < n; j++) {
-                    System.out.print(calcCache[j]);
-                }
-                System.out.println();
                 solveNQueensHelper(calcCache.clone(), res, n, index + 1);
             }
             calcCache[index]++;
