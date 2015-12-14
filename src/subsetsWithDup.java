@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by winney on 15/12/7.
@@ -7,13 +8,12 @@ import java.util.Arrays;
 public class subsetsWithDup {
 
     public static void main(String[] args) {
-//        System.out.print(solveNQueens(4));
         ArrayList<Integer> S = new ArrayList<>();
         S.add(1);
         S.add(2);
         S.add(2);
-//        S.add(3);
         ArrayList<ArrayList<Integer>> res = subsetsWithDup(S);
+
         for (int i = 0; i < res.size(); i++) {
             for (int j = 0; j < res.get(i).size(); j++) {
                 System.out.print(res.get(i).get(j));
@@ -29,26 +29,24 @@ public class subsetsWithDup {
      */
     public static ArrayList<ArrayList<Integer>> subsetsWithDup(ArrayList<Integer> S) {
         ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i <= S.size(); i++) {
-            pickNumbers(S, i, res, new ArrayList<>());
-        }
+        Collections.sort(S);
+        pickNumbers(S, 0, res, new ArrayList<>());
         return res;
     }
 
     private static void pickNumbers(ArrayList<Integer> s, int i, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> integers) {
-        if (i == 0) {
-//            System.out.print(Arrays.toString(integers.toArray()));
-            if (!res.contains(integers)) {
-                res.add(integers);
-            }
+        res.add(integers);
+        if (i == s.size()) {
             return;
         }
-        for (int j = 0; j < s.size(); j++) {
+        String last = null;
+        for (int j = i; j < s.size(); j++) {
             ArrayList<Integer> tmp = new ArrayList<Integer>(integers);
-//            if (!integers.contains(s.get(j))) {
             tmp.add(s.get(j));
-//            }
-            pickNumbers(s, i - 1, res, tmp);
+            if (last != null && !last.equals(Arrays.toString(tmp.toArray())) || last == null) {
+                last = Arrays.toString(tmp.toArray());
+                pickNumbers(s, j + 1, res, tmp);
+            }
         }
     }
 }
