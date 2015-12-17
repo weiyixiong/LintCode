@@ -10,7 +10,7 @@ public class permuteUnique {
         ArrayList<Integer> S = new ArrayList<>();
         S.add(1);
         S.add(2);
-        S.add(2);
+        S.add(3);
         ArrayList<ArrayList<Integer>> res = permuteUnique(S);
 
         for (int i = 0; i < res.size(); i++) {
@@ -29,22 +29,22 @@ public class permuteUnique {
     public static ArrayList<ArrayList<Integer>> permuteUnique(ArrayList<Integer> S) {
         ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
         Collections.sort(S);
-        pickNumbers(S, 0, res, new ArrayList<>());
+        pickNumbers(S, 0, res, new ArrayList<>(), new int[S.size()]);
         return res;
     }
 
-    private static void pickNumbers(ArrayList<Integer> s, int i, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> integers) {
+    private static void pickNumbers(ArrayList<Integer> s, int i, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> integers, int[] flag) {
         if (i == s.size()) {
             res.add(integers);
             return;
         }
-        String last = null;
-        for (int j = i; j < s.size(); j++) {
+        for (int j = 0; j < s.size(); j++) {
             ArrayList<Integer> tmp = new ArrayList<Integer>(integers);
+            int[] flagCp = flag.clone();
             tmp.add(s.get(j));
-            if (last != null && !last.equals(Arrays.toString(tmp.toArray())) || last == null) {
-                last = Arrays.toString(tmp.toArray());
-                pickNumbers(s, i + 1, res, tmp);
+            flagCp[j] = 1;
+            if (flag[j] != 1) {
+                pickNumbers(s, i + 1, res, tmp, flagCp);
             }
         }
     }
