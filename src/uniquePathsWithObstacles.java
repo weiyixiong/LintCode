@@ -1,0 +1,40 @@
+/**
+ * Created by winney on 15/12/18.
+ */
+public class uniquePathsWithObstacles {
+    public static void main(String[] args) {
+        for (int i = 1; i < 10; i++) {
+            int[][] tmp = new int[i][i];
+            System.out.println(uniquePathsWithObstacles(tmp));
+        }
+        System.out.println(uniquePathsWithObstacles(new int[4][2]));
+        System.out.println(uniquePathsWithObstacles(new int[4][3]));
+        System.out.println(uniquePathsWithObstacles(new int[3][4]));
+        System.out.println(uniquePathsWithObstacles(new int[4][4]));
+        System.out.println(uniquePathsWithObstacles(new int[4][5]));
+    }
+
+    /**
+     * @param obstacleGrid: A list of lists of integers
+     * @return: An integer
+     */
+    public static int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        return uniquePathsWithObstaclesHelper(obstacleGrid, 0, 0, obstacleGrid.length - 1, obstacleGrid[0].length - 1);
+    }
+
+    public static int uniquePathsWithObstaclesHelper(int[][] grid, int i, int j, int width, int height) {
+        int res = 0;
+        if (i == width && j == height) {
+            return 1;
+        }
+        if (i < width && grid[i + 1][j] != 1) {
+            res += uniquePathsWithObstaclesHelper(grid, i + 1, j, width, height);
+        }
+        if (j < height && grid[i][j + 1] != 1) {
+            res += uniquePathsWithObstaclesHelper(grid, i, j + 1, width, height);
+        }
+        return res;
+    }
+
+
+}
