@@ -9,7 +9,7 @@ public class minDistance {
      * @return: The minimum number of steps.
      */
 
-    public int minDistance(String word1, String word2) {
+    public static int minDistance(String word1, String word2) {
         int n = word1.length();
         int m = word2.length();
 
