@@ -13,50 +13,32 @@ public class isInterleave {
      * @return: true or false.
      */
     public static boolean isInterleave(String s1, String s2, String s3) {
-        if (s3.equals(s1 + s2)) {
-            return true;
-        }
-        int[][] flag = new int[2][s3.length()];
-        int last = 0;
-        for (int i = 0; i < s1.length(); i++) {
-            int tmp = 0;
-            for (int j = last; j < s3.length(); j++) {
-                if (s3.charAt(j) == s1.charAt(i)) {
-                    flag[0][j] = i + 1;
-                    if (tmp == 0) {
-                        tmp = i;
-                    }
-                }
-            }
-            last = tmp;
+        if (s1.length() + s2.length() != s3.length()) {
+            return false;
         }
 
-        for (int i = 0; i < Math.max(s2.length(), s1.length()); i++) {
-            int tmp = 0;
-            for (int j = last; j < s3.length(); j++) {
-                if (i < s2.length() && s3.charAt(j) == s2.charAt(i)) {
-                    flag[1][j] = -(i + 1);
-                    if (tmp == 0) {
-                        tmp = i;
-                    }
-                } else if (flag[1][j] == 0 && flag[0][j] > 0) {
-                    flag[1][j] = flag[0][j];
-                }
-            }
-            last = tmp;
+        boolean[][] interleaved = new boolean[s1.length() + 1][s2.length() + 1];
+        interleaved[0][0] = true;
+
+        for (int i = 1; i <= s1.length(); i++) {
+            if (s3.charAt(i - 1) == s1.charAt(i - 1) && interleaved[i - 1][0])
+                interleaved[i][0] = true;
         }
 
-        for (int i = 0; i < flag[0].length; i++) {
-            if (flag[1][i] == 0) {
-                return false;
+        for (int j = 1; j <= s2.length(); j++) {
+            if (s3.charAt(j - 1) == s2.charAt(j - 1) && interleaved[0][j - 1])
+                interleaved[0][j] = true;
+        }
+
+        for (int i = 1; i <= s1.length(); i++) {
+            for (int j = 1; j <= s2.length(); j++) {
+                if (((s3.charAt(i + j - 1) == s1.charAt(i - 1) && interleaved[i - 1][j]))
+                        || ((s3.charAt(i + j - 1)) == s2.charAt(j - 1) && interleaved[i][j - 1]))
+                    interleaved[i][j] = true;
             }
-            System.out.println(flag[1][i] + "  " + flag[0][i]);
         }
-        Arrays.sort(flag[1]);
-        if (flag[1][0] == -s2.length() && flag[1][s3.length() - 1] == s1.length()) {
-            return true;
-        }
-        return false;
+
+        return interleaved[s1.length()][s2.length()];
     }
 
     public static void main(String[] args) {
@@ -65,6 +47,6 @@ public class isInterleave {
         String c = "sdfjas;dfjoisdfnakdjnfjkzghdufguwdufzjkeygfasjkdfgb2gf8asf7ndtgbgasjkdfgasodf7asdfgfajkasdksdfguayfgaogfsdkagfsfjadhfajksdvfbgkadsghfa;sdkdsfgasduyfgajsdkfgafajkdghfaksdgfuyadgfas;dfjkdvfjsdkvfakfgauyksa;dgfajkefgjkdasgfdjksffaskdjhfasdhjdfakhdgadjkghfajgfkajdfksdfgaskdjfgasjkdgfuasdjfgajksdfgaksdhfasdkbfjkdsfbajksdfyaegfasdjkfgajkdfygadjskfgjkadfghakjsdfbajkdfbakdjsfgaksdhgfjkdsghfkdsfgadsjfgkajsdgfkjasdfh";
 
         System.out.print(isInterleave("abcabc", "ac", "aabcabcc") + "");
-//        System.out.print(isInterleave(a, b, c) + "");
+        System.out.print(isInterleave(a, b, c) + "");
     }
 }
