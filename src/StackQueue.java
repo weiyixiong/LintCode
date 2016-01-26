@@ -3,11 +3,11 @@ import java.util.Stack;
 /**
  * Created by winney on 16/1/18.
  */
-public class Queue {
+public class StackQueue {
     private Stack<Integer> stack1;
     private Stack<Integer> stack2;
 
-    public Queue() {
+    public StackQueue() {
         stack1 = new Stack<>();
         stack2 = new Stack<>();
     }

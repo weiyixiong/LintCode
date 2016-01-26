@@ -22,7 +22,7 @@ public class kthPrimeNumber {
             inQ.put(primes[i], true);
         }
         Long number = Long.valueOf(0);
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < k; i++) {
             number = Q.poll();
             for (int j = 0; j < 3; j++) {
                 if (!inQ.containsKey(primes[j] * number)) {

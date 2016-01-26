@@ -1,4 +1,6 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 /**
  * Created by winney on 15/11/24.
@@ -20,7 +22,7 @@ public class topSort {
                 }
             }
         }
-        Queue<DirectedGraphNode> q = new LinkedList<DirectedGraphNode>();
+        java.util.Queue<DirectedGraphNode> q = new LinkedList<DirectedGraphNode>();
         for (DirectedGraphNode node : graph) {
             if (!map.containsKey(node)) {
                 q.offer(node);

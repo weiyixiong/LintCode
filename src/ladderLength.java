@@ -11,7 +11,7 @@ public class ladderLength {
      * @return an integer
      */
     public int ladderLength(String start, String end, Set<String> dict) {
-        Queue<List<String>> cache = new LinkedList<>();
+        java.util.Queue<List<String>> cache = new LinkedList<>();
         Map<String, Integer> min = new HashMap<>();
         List<String> tmp = new ArrayList<>();
         tmp.add(start);
