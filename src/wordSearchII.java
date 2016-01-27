@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by winney on 16/1/26.
@@ -18,9 +15,10 @@ public class wordSearchII {
         for (int i = 0; i < board.length; i++) {
             maxLen = Math.max(maxLen, board[i].length);
         }
+        boolean[][] flag = new boolean[board.length][maxLen];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                buildRoot(root, board, new HashSet<String>(), i, j);
+                buildRoot(root, board, flag, i, j);
             }
         }
         ArrayList<String> res = new ArrayList<>();
@@ -35,7 +33,7 @@ public class wordSearchII {
     public static boolean findWord(TreeNode root, String target) {
         for (int i = 0; i < target.length(); i++) {
             if (root != null) {
-                root = root.childs[target.charAt(i) - 'a'];
+                root = root.childs.get(target.charAt(i) - 'a');
             } else {
                 return false;
             }
@@ -45,54 +43,60 @@ public class wordSearchII {
         return true;
     }
 
-    public static void buildRoot(TreeNode root, char[][] board, Set<String> flag, int i, int j) {
-        if (root.childs[board[i][j] - 'a'] == null)
-            root.childs[board[i][j] - 'a'] = new TreeNode();
-        flag.add(i * 100 + j + "");
-        buildTree(root.childs[board[i][j] - 'a'], board, flag, i, j);
+    public static void buildRoot(TreeNode root, char[][] board, boolean[][] flag, int i, int j) {
+        if (root.childs.get(board[i][j] - 'a') == null)
+            root.childs.put(board[i][j] - 'a', new TreeNode());
+        flag[i][j] = true;
+        buildTree(root.childs.get(board[i][j] - 'a'), board, flag, i, j);
+        flag[i][j] = false;
     }
 
-    public static void buildTree(TreeNode root, char[][] board, Set<String> flag, int i, int j) {
-        if (i + 1 < board.length && !flag.contains(cast(i + 1, j))) {
-            if (root.childs[board[i + 1][j] - 'a'] == null)
-                root.childs[board[i + 1][j] - 'a'] = new TreeNode();
-            HashSet<String> tmp = new HashSet<>(flag);
-            tmp.add(cast(i + 1, j));
-            buildTree(root.childs[board[i + 1][j] - 'a'], board, tmp, i + 1, j);
-        }
-        if (j + 1 < board[i].length && !flag.contains(cast(i, j + 1))) {
-            if (root.childs[board[i][j + 1] - 'a'] == null)
-                root.childs[board[i][j + 1] - 'a'] = new TreeNode();
-            HashSet<String> tmp = new HashSet<>(flag);
-            tmp.add(cast(i, j + 1));
-            buildTree(root.childs[board[i][j + 1] - 'a'], board, tmp, i, j + 1);
-        }
-        if (i - 1 >= 0 && !flag.contains(cast(i - 1, j))) {
-            if (root.childs[board[i - 1][j] - 'a'] == null)
-                root.childs[board[i - 1][j] - 'a'] = new TreeNode();
-            HashSet<String> tmp = new HashSet<>(flag);
-            tmp.add(cast(i - 1, j));
-            buildTree(root.childs[board[i - 1][j] - 'a'], board, tmp, i - 1, j);
-        }
-        if (j - 1 >= 0 && !flag.contains(cast(i, j - 1))) {
-            if (root.childs[board[i][j - 1] - 'a'] == null)
-                root.childs[board[i][j - 1] - 'a'] = new TreeNode();
-            HashSet<String> tmp = new HashSet<>(flag);
-            tmp.add(cast(i, j - 1));
-            buildTree(root.childs[board[i][j - 1] - 'a'], board, tmp, i, j - 1);
+    public static void buildTree(TreeNode root, char[][] board, boolean[][] flag, int i, int j) {
+        int i1 = 0;
+        if (i + 1 < board.length && !flag[i + 1][j]) {
+            i1 = board[i + 1][j] - 'a';
+            if (root.childs.get(i1) == null)
+                root.childs.put(i1, new TreeNode());
+            flag[i + 1][j] = true;
+            buildTree(root.childs.get(i1), board, flag, i + 1, j);
+            flag[i + 1][j] = false;
         }
 
-    }
+        if (j + 1 < board[i].length && !flag[i][j + 1]) {
+            i1 = board[i][j + 1] - 'a';
+            if (root.childs.get(i1) == null)
+                root.childs.put(i1, new TreeNode());
+            flag[i][j + 1] = true;
+            buildTree(root.childs.get(i1), board, flag, i, j + 1);
+            flag[i][j + 1] = false;
+        }
 
-    public static String cast(int i, int j) {
-        return i * 100 + j + "";
+
+        if (i - 1 >= 0 && !flag[i - 1][j]) {
+            i1 = board[i - 1][j] - 'a';
+            if (root.childs.get(i1) == null)
+                root.childs.put(i1, new TreeNode());
+            flag[i - 1][j] = true;
+            buildTree(root.childs.get(i1), board, flag, i - 1, j);
+            flag[i - 1][j] = false;
+        }
+
+        if (j - 1 >= 0 && !flag[i][j - 1]) {
+            i1 = board[i][j - 1] - 'a';
+            if (root.childs.get(i1) == null)
+                root.childs.put(i1, new TreeNode());
+            flag[i][j - 1] = true;
+            buildTree(root.childs.get(i1), board, flag, i, j - 1);
+            flag[i][j - 1] = false;
+        }
+
     }
 
     static class TreeNode {
-        TreeNode[] childs;
+        Map<Integer, TreeNode> childs;
 
         public TreeNode() {
-            childs = new TreeNode[26];
+            childs = new HashMap<>();
         }
 
     }
