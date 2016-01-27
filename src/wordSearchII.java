@@ -15,10 +15,14 @@ public class wordSearchII {
         for (int i = 0; i < board.length; i++) {
             maxLen = Math.max(maxLen, board[i].length);
         }
+        int maxDeep = 0;
+        for (String word : words) {
+            maxDeep = Math.max(word.length(), maxDeep);
+        }
         boolean[][] flag = new boolean[board.length][maxLen];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                buildRoot(root, board, flag, i, j);
+                buildRoot(root, board, flag, i, j, maxDeep);
             }
         }
         ArrayList<String> res = new ArrayList<>();
@@ -43,22 +47,25 @@ public class wordSearchII {
         return true;
     }
 
-    public static void buildRoot(TreeNode root, char[][] board, boolean[][] flag, int i, int j) {
+    public static void buildRoot(TreeNode root, char[][] board, boolean[][] flag, int i, int j, int maxDeep) {
         if (root.childs.get(board[i][j] - 'a') == null)
             root.childs.put(board[i][j] - 'a', new TreeNode());
         flag[i][j] = true;
-        buildTree(root.childs.get(board[i][j] - 'a'), board, flag, i, j);
+        buildTree(root.childs.get(board[i][j] - 'a'), board, flag, i, j, maxDeep--);
         flag[i][j] = false;
     }
 
-    public static void buildTree(TreeNode root, char[][] board, boolean[][] flag, int i, int j) {
+    public static void buildTree(TreeNode root, char[][] board, boolean[][] flag, int i, int j, int maxDeep) {
+        if (maxDeep <= 0) {
+            return;
+        }
         int i1 = 0;
         if (i + 1 < board.length && !flag[i + 1][j]) {
             i1 = board[i + 1][j] - 'a';
             if (root.childs.get(i1) == null)
                 root.childs.put(i1, new TreeNode());
             flag[i + 1][j] = true;
-            buildTree(root.childs.get(i1), board, flag, i + 1, j);
+            buildTree(root.childs.get(i1), board, flag, i + 1, j, maxDeep - 1);
             flag[i + 1][j] = false;
         }
 
@@ -67,7 +74,7 @@ public class wordSearchII {
             if (root.childs.get(i1) == null)
                 root.childs.put(i1, new TreeNode());
             flag[i][j + 1] = true;
-            buildTree(root.childs.get(i1), board, flag, i, j + 1);
+            buildTree(root.childs.get(i1), board, flag, i, j + 1, maxDeep - 1);
             flag[i][j + 1] = false;
         }
 
@@ -77,7 +84,7 @@ public class wordSearchII {
             if (root.childs.get(i1) == null)
                 root.childs.put(i1, new TreeNode());
             flag[i - 1][j] = true;
-            buildTree(root.childs.get(i1), board, flag, i - 1, j);
+            buildTree(root.childs.get(i1), board, flag, i - 1, j, maxDeep - 1);
             flag[i - 1][j] = false;
         }
 
@@ -86,7 +93,7 @@ public class wordSearchII {
             if (root.childs.get(i1) == null)
                 root.childs.put(i1, new TreeNode());
             flag[i][j - 1] = true;
-            buildTree(root.childs.get(i1), board, flag, i, j - 1);
+            buildTree(root.childs.get(i1), board, flag, i, j - 1, maxDeep - 1);
             flag[i][j - 1] = false;
         }
 
