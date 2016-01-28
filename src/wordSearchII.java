@@ -124,7 +124,7 @@ public class wordSearchII {
         buildTree(word, root.childs.get(word.charAt(i)), i + 1);
     }
 
-    public static void findWordRoot(TreeNode root, char[][] board, boolean[][] flag, int i, int j, int maxDeep, String target, ArrayList<String> ans, ArrayList<String> words) {
+    public static void findWordRoot(TreeNode root, char[][] board, boolean[][] flag, int i, int j, int maxDeep, ArrayList<String> ans, ArrayList<String> words) {
         flag[i][j] = true;
         if (root.childs.containsKey(board[i][j]))
             findWord(root.childs.get(board[i][j]), board, flag, i, j, maxDeep - 1, board[i][j] + "", ans, words);
@@ -189,7 +189,7 @@ public class wordSearchII {
         ArrayList<String> ans = new ArrayList<>();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                findWordRoot(root, board, flag, i, j, maxDeep, null, ans, words);
+                findWordRoot(root, board, flag, i, j, maxDeep, ans, words);
             }
         }
         return ans;
