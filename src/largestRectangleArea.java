@@ -49,7 +49,7 @@ public class largestRectangleArea {
     }
 
     public static void main(String[] args) {
-        int[] test = {2, 1, 5, 6, 2, 3};
+        int[] test = {2, 1, 5, 6, 2, 3, 7};
         largestRectangleArea(test);
         largestRectangleArea2(test);
 
