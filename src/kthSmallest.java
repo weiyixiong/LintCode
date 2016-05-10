@@ -13,10 +13,12 @@ public class kthSmallest {
             return 0;
         }
         int w = matrix[0].length;
-
-        int res1 = matrix[k % h][k / h];
-        int res2 = matrix[k / w][k % w];
-        return Math.min(res1, res2);
+        k--;
+        if (matrix.length > 1 && matrix[0].length > 1 && matrix[0][1] > matrix[1][0]) {
+            return matrix[k % h][k / h];
+        } else {
+            return matrix[k / w][k % w];
+        }
     }
 
 }
