@@ -15,6 +15,7 @@ public class largestRectangleArea {
             while (!stack.isEmpty() && curt <= height[stack.peek()]) {
                 int h = height[stack.pop()];
                 int w = stack.isEmpty() ? i : i - stack.peek() - 1;
+                System.out.println(h + " " + w);
                 max = Math.max(max, h * w);
             }
 
