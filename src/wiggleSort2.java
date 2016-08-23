@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -39,5 +40,11 @@ public class wiggleSort2 {
 
     public int A(int[] nums, int i) {
         return (1 + 2 * (i)) % (nums.length | 1);
+    }
+
+    public static void main(String[] a) {
+        int[] data = new int[]{1, 2, 3, 4, 5, 6};
+        new wiggleSort2().wiggleSort(data);
+
     }
 }
